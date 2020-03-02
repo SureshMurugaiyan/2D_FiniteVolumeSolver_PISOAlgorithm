@@ -214,4 +214,4 @@ void fvdGradientOfScalar(dfloat* gradCell,dfloat *phiCell, int P_Name, mesh_t *m
 void insCorrectU(mesh_t *mesh);
 void insCorrectVolumetricFlux(mesh_t *mesh);
 
-void setReferenceValueScalar(double* p,int refCell,double refValue, mesh_t *mesh);
+void setReferenceValueScalar(double* p,int P_name, int refCell,double refValue, mesh_t *mesh);

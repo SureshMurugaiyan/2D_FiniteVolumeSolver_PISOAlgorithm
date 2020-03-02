@@ -84,7 +84,7 @@ int main(int argc, char **argv){
 			int refCell  = 0;
 			int refValue = 0;
 
-			setReferenceValueScalar(mesh->p,refCell,refValue,mesh);
+			setReferenceValueScalar(mesh->p,p,refCell,refValue,mesh);
 
 
 			mesh->lambda  	=	1.0;	// relaxation parameter
@@ -122,8 +122,37 @@ int main(int argc, char **argv){
 
 }
 
-void setReferenceValueScalar(double* p,int refCell,double refValue, mesh_t *mesh){
+void setReferenceValueScalar(double* p,int P_name, int refCell,double refValue, mesh_t *mesh){
 
+
+	double set = 1;
+
+	for (int cell = 0; cell < mesh->ncells; cell++) {
+
+		for (int face = 0; face < mesh->ncellFaces; face++) {
+
+			int fid = face+cell*mesh->ncellFaces;
+			int cell_n = mesh->cellToCells[fid];
+
+			if (cell_n==(-1)){
+
+				insGetBoundaryCondition(P_name,fid,mesh);
+
+
+				if (mesh->bctype == fixedValue){
+					set = 0;
+
+				}
+			}
+		}
+
+	}
+
+
+	if (set==0){
+
+		return;
+	}
 
 	mesh->aP[refCell] = 1.00;
 
